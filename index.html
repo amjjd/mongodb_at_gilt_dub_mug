@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+ </head>
+ <body>
+  <div class="reveal">
+   <div class="slides">
+    <section>
+     <img style="position: relative; left: -100px; border: none; box-shadow: none" src="MongoDB_Logo.png">
+     <h2>@</h2>
+     <img style="position: relative; left: 100px; border: none; box-shadow: none" src="logo-gilt.png">
+    </section>
+    <section>
+     <section>
+      <h2>What is Gilt?</h2>
+     </section>
+     <section>
+      <img src="women.jpg">
+      <div style="height: 300px">&nbsp;</div>
+      <img class="fragment" style="position: absolute; top: 200px; left: 40px" src="men.jpg">
+      <img class="fragment" style="position: absolute; top: 280px; left: 20px" src="children.jpg">
+      <img class="fragment" style="position: absolute; top: 260px; right: 10px" src="home2.jpg">
+      <img class="fragment" style="position: absolute; top: 270px; right: 150px" src="home.jpg">
+      <img class="fragment" style="position: absolute; top: 170px; left: 170px" src="taste.jpg">
+     </section>
+     <section>
+      <h3>Every noon...</h3>
+     </section>
+     <section>
+      <img src="email.png">
+     </section>
+     <section>
+      <img src="spike.png">
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>Technology stack</h2>
+     </section>
+     <section>
+      <div style="width: 800px; height: 600px">
+       <img style="position: absolute; left: 0" src="gilt_stack_1.png">
+       <img class="fragment" style="position: absolute; left: 0" src="gilt_stack_2.png">
+       <img class="fragment" style="position: absolute; left: 0" src="gilt_stack_3.png">
+       <img class="fragment" style="position: absolute; left: 0" src="gilt_stack_4.png">
+      </div>
+     </section>
+     <section>
+      <h3>Current service stack</h3>
+      <h4 class="fragment">Stingray Traffic Manager</h4>
+      <h4 class="fragment">Jetty</h4>
+      <h4 class="fragment">JAX-RS + Jackson</h4>
+      <h4 class="fragment">Scala</h4>
+      <h4 class="fragment">MongoDB / PostgreSQL / other services</h4>
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>MongoDB</code>
+     </section>
+     <section>
+      <h3>Why?</h3>
+      <h4 class="fragment">Disclosure: 10gen <span style="font-size: 160%">&cap;</span> Gilt</h4>
+      <h4 class="fragment">It works for us</h4>
+     </section>
+     <section>
+      <h3>How much?</h3>
+      <h4 class="fragment">&gt;20 databases</h4>
+      <h4 class="fragment">&gt;500G data</h4>
+      <h4 class="fragment">6 big bare metal servers</h4>
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>Case study</h2>
+     </section>
+     <section>
+      <h3>User service</h3>
+      <h4 class="fragment">Old monolithic service</h4>
+      <h4 class="fragment">Had caused site outages</h4>
+      <h4 class="fragment">Has old-style name</h4>
+     </section>
+     <section>
+      <h3>svc-user</h3>
+      <h4 class="fragment">Replaces most troublesome user service endpoints</h4>
+      <h4 class="fragment">150KRPM at peak</h4>
+      <h4 class="fragment">Polls DB table for updates, replicates in Mongo</h4>
+      <h4 class="fragment">Has new-style name</h4>
+     </section>
+     <section>
+      <h3>Result:</h3>
+      <figure>
+       <img style="width: 640px; height: 480px" src="800px-A._gigantea_Aldabra_Giant_Tortoise.jpg">
+       <figcaption style="font-size: 8pt"><a href="http://en.wikipedia.org/wiki/File:A._gigantea_Aldabra_Giant_Tortoise.jpg">http://en.wikipedia.org/wiki/File:A._gigantea_Aldabra_Giant_Tortoise.jpg</a></figcaption>
+      </figure>
+     </section>
+     <section>
+      <h3>First attempt:</h3>
+      <h3>Rate-limit writes</h3>
+      <div class="fragment">
+       <h4>Configurable rate in Hz</h4>
+       <h4>Allow high-priority updates to skip the queue</h4>
+      </div>
+     </section>
+     <section>
+      <h3>Result:</h3>
+      <img width="640" height="480" src="795745_o.gif">
+     </section>
+     <section>
+      <h3>Next attempt:</h3>
+      <h3>SSD</h3>
+      <div class="fragment">
+       <h4>RAID1 over 2 drives for journals + </h4>
+       <h4>RAID10 over 4 drives for data = </h4>
+       <h4>About $5K per server</h4>
+      </div>
+     </section>
+     <section>
+      <h3>Result:</h3>
+      <img src="t_car.jpg">
+      <h4>300 writes/s, 1ms avg. response time, &lt;1ms std. dev, 8ms P99</h4>
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>Monitoring</h2>
+     </section>
+     <section>
+      <h3><a href="http://mms.10gen.com">mms.10gen.com</a></h3>
+      <h3 class="fragment">... is not enough. Solutions:</h3>
+      <h4 class="fragment">Write a Nagios plugin</h4>
+      <h4 class="fragment">Rely on services to log errors</h4>
+      <h4 class="fragment">Bury head in sand</h4>
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>Don&apos;t do this</h2>
+     </section>
+     <section>
+      <img src="serious_cat_is_serious.jpg">
+      <h2>... no really, don&apos;t</h2>
+     </section>
+     <section>
+      <h3>Bad:</h3>
+      <pre><code>db.collection.ensureIndex({key: 1})</code></pre>
+      <h4 class="fragment">Blocks all other operations</h4>
+     </section>
+     <section>
+      <figure>
+       <img src="groucho.jpg">
+       <figcaption><h5>&ldquo;I don&apos;t care to belong to any club that will have me as a member&rdquo;</h5></figcaption>
+      <figure>
+     </section>
+     <section>
+      <h3>Better:</h3>
+      <pre><code>db.collection.ensureIndex({key: 1}, {background: true})</code></pre>
+      <h4 class="fragment">... however, secondaries still block, can fall behind</h4>
+     </section>
+     <section>
+      <h3>Best:</h3>
+      <h4>Treat index creation as an operational task<br>
+      <a href="http://docs.mongodb.org/manual/core/indexes/#index-creation-background">docs.mongodb.org/manual/core/indexes/#index-creation-background</a></h4>
+     </section>
+    </section>
+    <section>
+     <section>
+      <h2>We&apos;re hiring</h2>
+      <h3><a href="http://techjobs.gilt.com">techjobs.gilt.com</a></h3>
+     </section>
+     <section>
+      <img src="IMG_0107.jpg">
+     </section>
+     <section>
+      <figure>
+       <img src="5781204416_53cc5422bf_z.jpg">
+       <figcaption style="font-size: 8pt"><a href="http://www.flickr.com/photos/slgc/5781204416/in/photostream/">flickr.com/photos/slgc/5781204416/in/photostream/</a></figcaption>
+      </figure>
+     </section>
+    </section>
+    <section>
+     <h2>Contact me</h2>
+     <h3><a href="mailto:aduffy@gilt.com">aduffy@gilt.com</a></h3>
+     <h3><a href="http://twitter.com/amjjd">@amjjd</a></h3>
+     <h3><a href="http://github.com/amjjd">github.com/amjjd</a></h3>
+    </section>
+   </div>
+  </div>
+  <script src="js/reveal.min.js"></script>
+  <script>
+  Reveal.initialize({
+  
+    // The "normal" size of the presentation, aspect ratio will be preserved
+    // when the presentation is scaled to fit different resolutions. Can be
+    // specified using percentage units.
+    width: 960,
+    height: 700,
+
+    // Factor of the display size that should remain empty around the content
+    margin: 0.1,
+
+    // Bounds for smallest/largest possible scale to apply to content
+    minScale: 0.2,
+    maxScale: 1.0,
+
+    // Display controls in the bottom right corner
+    controls: true,
+
+    // Display a presentation progress bar
+    progress: true,
+
+    // Push each slide change to the browser history
+    history: true,
+
+    // Enable keyboard shortcuts for navigation
+    keyboard: true,
+
+    // Enable the slide overview mode
+    overview: true,
+
+    // Vertical centering of slides
+    center: true,
+
+    // Loop the presentation
+    loop: false,
+
+    // Change the presentation direction to be RTL
+    rtl: false,
+
+    // Number of milliseconds between automatically proceeding to the 
+    // next slide, disabled when set to 0, this value can be overwritten
+    // by using a data-autoslide attribute on your slides
+    autoSlide: 0,
+
+    // Enable slide navigation via mouse wheel
+    mouseWheel: false,
+
+    // Apply a 3D roll to links on hover
+    rollingLinks: false,
+
+    // Transition style
+    transition: 'default' // default/cube/page/concave/zoom/linear/fade/none
+
+  });
+  </script>
+ </body>
+</html>
